@@ -1,28 +1,47 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: soel-mou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/01/08 15:31:52 by soel-mou          #+#    #+#             */
+/*   Updated: 2024/01/08 15:31:53 by soel-mou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int	check_type(const char *input, void *arg)
+static int	check_type(const char *str, void *arg)
 {
 	int	i;
 
 	i = 0;
-	if (*input == 'c')
+	if (*str == 'c')
 		i += print_char((int)arg);
-	else if (*input == 's')
-		i += print_string((char *)arg);
-	else if (*input == 'p')
-		i += print_pointer((unsigned long)arg, 87);
-	else if (*input == 'd')
+	else if (*str == 's')
+		i += print_str((char *)arg);
+	else if (*str == 'p')
+		i += print_ptr((unsigned long)arg, 87);
+	else if (*str == 'd')
 		i += print_int((int)arg);
-	else if (*input == 'i')
+	else if (*str == 'i')
 		i += print_int((int)arg);
-	else if (*input == 'u')
-		i += print_unsigned((unsigned int)arg);
-	else if (*input == 'x')
+	else if (*str == 'u')
+		i += print_unsgd((unsigned int)arg);
+	else if (*str == 'x')
 		i += print_hex((unsigned int)arg, 87);
-	else if (*input == 'X')
+	else if (*str == 'X')
 		i += print_hex((unsigned int)arg, 55);
 	return (i);
+}
+
+static char	*ft_strchr(const char *s, int c)
+{
+	while (*s != (char)c)
+		if (!*s++)
+			return (0);
+	return ((char *)s);
 }
 
 int	ft_printf(const char *input, ...)
